@@ -1,1 +1,4 @@
 __pycache__/
+buld/win_build/
+build/dist/
+build/build/
