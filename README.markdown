@@ -21,7 +21,7 @@ git clone https://github.com/kzmo/deharm.git
 
 -OR-
 
-Copy the Deharm directory into your python path. Zip
+Copy the Deharm directory into your python path. The zip file can be found
 [here](https://github.com/kzmo/deharm/zipball/master)
 
 
@@ -30,8 +30,8 @@ In command line fetch the requirements in the main repository directory
 pip install -r requirements.txt
 ```
 
-Now you should be able to run Deharm simply by running **deharm.py** from the
-**src** directory:
+Now you should be able to run Deharm simply by running `deharm.py` from the
+`src` directory:
 ``` console
 python deharm.py
 ```
@@ -44,13 +44,13 @@ installation instructions above and install also PyInstaller:
 pip install pyinstaller
 ```
 
-Then run the **build_windows.bat** script in the command line in the **build**
+Then run the `build_windows.bat` script in the command line in the `build`
 directory
 ``` console
 build_windows.bat
 ```
 
-The resulting **deharm.exe** file should be in the **build\\win_build**
+The resulting `deharm.exe` file should be in the `build\win_build`
 directory.
 
 # License
