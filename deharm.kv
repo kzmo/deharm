@@ -1,0 +1,367 @@
+#:kivy 1.0
+
+<SplashScreen>:
+    id: splashscreen
+    title: "Deharm v." + str(root.version)
+    FloatLayout:
+        canvas.before:
+            Color:
+                rgba: (0.1, 0.1, 0.1, 1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        Label:
+            text: "Deharm v." + str(root.version)
+            size_hint: (1, 0.05)
+            pos_hint: {"x": 0, "y": 1 - 0.1}
+        TextInput:
+            text: root.text
+            size_hint: (0.9, 0.75)
+            pos_hint: {"x": 0.05, "y": 0.15}
+            always_overscroll: False
+        Button:
+            text: "Continue"
+            size_hint: (1, 0.1)
+            pos_hint: {"x": 0, "y": 0}
+            on_release: root.cancel()
+
+Root:
+    Button:
+        text: "Open.."
+        pos_hint: {'x': 0, 'y': .95}
+        size_hint: (1/3, .05)
+        on_release: root.show_load()
+
+    Button:
+        id: save_button
+        text: "Save"
+        pos_hint: {'x': 1/3, 'y': .95}
+        size_hint: (1/3, .05)
+        on_release: root.save_clicked()
+        disabled: True
+
+    Button:
+        id: save_as_button
+        text: "Save As.."
+        pos_hint: {'x': 2/3, 'y': .95}
+        size_hint: (1/3, .05)
+        on_release: root.show_save_as()
+        disabled: True
+
+    Image:
+        id: spectrogram
+        source: root.get_nofile_img()
+        pos_hint: {'x': 0, 'y': 0.95 - ( 0.95 - 1/3 - 0.05)}
+        size_hint: (1, 0.95 - 1/3 - 0.05)
+        allow_stretch: True
+        keep_ratio: False
+
+    Button:
+        id: play_button
+        text: "Play"
+        pos_hint: {'x': 0, 'y': 1/3}
+        size_hint: (1/4, .05)
+        on_release: root.play_audio()
+        disabled: True
+
+    Button:
+        id: stop_button
+        text: "Stop"
+        pos_hint: {'x': 1/4, 'y': 1/3}
+        size_hint: (1/4, .05)
+        on_release: root.stop_audio()
+        disabled: True
+
+    ProgressBar:
+        id: playback_progress
+        pos_hint: {'x': 2/4 + 0.02, 'y': 1/3}
+        size_hint: (1/4 - 0.02, .05)
+        max: 100.0
+        value: 0.0
+
+    Label:
+        id: playback_pos_text
+        text: "No file"
+        pos_hint: {'x': 3/4, 'y': 1/3}
+        size_hint: (1/4, .05)
+
+    GridLayout:
+        cols: 4
+        pos_hint: {'x': 0.0, 'y': 1/4 - 0.2}
+        size_hint: (1, 1/3 - 0.05)
+
+        Label:
+            text: "Shift [Hz]:"
+            canvas.before:
+                Color:
+                    rgba: (0.1, 0.2, 0.1, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+        AnchorLayout:
+            canvas.before:
+                Color:
+                    rgba: (0.1, 0.2, 0.1, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            TextInput:
+                id: shift
+                text: "1000.0"
+                height: 30
+                multiline: False
+                size_hint: (0.9, None)
+                input_filter: "float"
+
+        Label:
+            text: "Low Cut-Off [Hz]:"
+            canvas.before:
+                Color:
+                    rgba: (0.2, 0.3, 0.2, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+        AnchorLayout:
+            canvas.before:
+                Color:
+                    rgba: (0.2, 0.3, 0.2, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            TextInput:
+                id: minfreq
+                text: "200.0"
+                height: 30
+                multiline: False
+                size_hint: (0.9, None)
+                input_filter: "float"
+
+        Label:
+            text: "Shift to High:"
+            canvas.before:
+                Color:
+                    rgba: (0.2, 0.3, 0.2, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+        CheckBox:
+            id: high_checkbox
+            active: False
+            canvas.before:
+                Color:
+                    rgba: (0.2, 0.3, 0.2, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+        Label:
+            text: "Decomposition (slow):"
+            canvas.before:
+                Color:
+                    rgba: (0.1, 0.2, 0.1, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+        GridLayout:
+            cols: 3
+            canvas.before:
+                Color:
+                    rgba: (0.1, 0.2, 0.1, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            Label:
+                text: "None"
+                font_size: 12
+            Label:
+                text: "Harmonic"
+                font_size: 12
+            Label:
+                text: "Percussive"
+                font_size: 12
+
+            CheckBox:
+                id: decompose_none
+                on_release: root.decompose_none_clicked()
+                active: True
+
+            CheckBox:
+                id: decompose_harmonic
+                on_release: root.decompose_harmonic_clicked()
+                active: False
+
+            CheckBox:
+                id: decompose_percussive
+                on_release: root.decompose_percussive_clicked()
+                active: False
+
+
+        Label:
+            canvas.before:
+                Color:
+                    rgba: (0.1, 0.2, 0.1, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            text: "Use Short-Time FFT:"
+
+        CheckBox:
+            canvas.before:
+                Color:
+                    rgba: (0.1, 0.2, 0.1, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            id: stft_checkbox
+            active: True
+
+        Label:
+            text: "Short-Time FFT Block Size:"
+            canvas.before:
+                Color:
+                    rgba: (0.2, 0.3, 0.2, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+        AnchorLayout:
+            canvas.before:
+                Color:
+                    rgba: (0.2, 0.3, 0.2, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            TextInput:
+                id: fft_size
+                text: "512"
+                height: 30
+                multiline: False
+                size_hint: (0.9, None)
+                input_filter: "int"
+    Button:
+        id: undo
+        text: "Undo"
+        pos_hint: {'x': 0, 'y': 0}
+        size_hint: (1/2, .05)
+        on_release: root.undo()
+        disabled: True
+
+    Button:
+        id: deharmonize_button
+        text: "Deharmonize!"
+        pos_hint: {'x': 1/2, 'y': 0}
+        size_hint: (1/2, .05)
+        background_normal: ''
+        background_color: 0.3, 1.0, 0, 1.0
+        color: 0, 0, 0, 1
+        disabled: True
+        on_release: root.schedule_deharmonize()
+
+    SplashScreen:
+        id: splashscreen
+        version: root.get_version()
+        cancel: root.hide_splash_screen
+
+<LoadDialog>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        FileChooserListView:
+            id: filechooser
+            path: root.default_path()
+            filters: ["*.mp3", "*.wav", "*.MP3", "*.WAV"]
+
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            Button:
+                text: "Cancel"
+                on_release: root.cancel()
+
+            Button:
+                text: "Load"
+                on_release: root.load(filechooser.path, filechooser.selection)
+
+<SaveDialogContent>:
+    Label:
+        text: "Are you sure you want to overwrite?"
+        size_hint: (1, 0.05)
+        pos_hint: {"x": 0, "y": 2/3 - 0.05}
+
+    Button:
+        text: "Yes"
+        size_hint: (1/2, 0.1)
+        pos_hint: {"x": 0, "y": 0}
+        on_release: root.save()
+
+    Button:
+        text: "No"
+        size_hint: (1/2, 0.1)
+        pos_hint: {"x": 1/2, "y": 0}
+        on_release: root.cancel()
+
+<SaveAsDialog>:
+    text_input: text_input
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        FileChooserListView:
+            id: filechooser
+            on_selection: text_input.text = self.selection and self.selection[0] or ''
+            path: root.default_path()
+            filters: ["*.mp3", "*.wav", "*.MP3", "*.WAV"]
+
+        TextInput:
+            id: text_input
+            size_hint_y: None
+            height: 30
+            multiline: False
+
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            Button:
+                text: "Cancel"
+                on_release: root.cancel()
+
+            Button:
+                text: "Save"
+                on_release: root.save(filechooser.path, text_input.text)
+
+<SaveErrorDialog>:
+    Label:
+        text: "Error writing to a file: " + root.error_msg
+        size_hint: (1, 0.05)
+        pos_hint: {"x": 0, "y": 2/3 - 0.05}
+    Button:
+        text: "Close"
+        size_hint: (1, 0.1)
+        pos_hint: {"x": 0, "y": 0}
+        on_release: root.cancel()
+
+<LoadErrorDialog>:
+    Label:
+        text: "Error loading a file: " + root.error_msg
+        size_hint: (1, 0.05)
+        pos_hint: {"x": 0, "y": 2/3 - 0.05}
+    Button:
+        text: "Close"
+        size_hint: (1, 0.1)
+        pos_hint: {"x": 0, "y": 0}
+        on_release: root.cancel()
+
+<ProcessErrorDialog>:
+    Label:
+        text: "Error processing: " + root.error_msg
+        size_hint: (1, 0.05)
+        pos_hint: {"x": 0, "y": 2/3 - 0.05}
+    Button:
+        text: "Close"
+        size_hint: (1, 0.1)
+        pos_hint: {"x": 0, "y": 0}
+        on_release: root.cancel()

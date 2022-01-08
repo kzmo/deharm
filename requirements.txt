@@ -1,0 +1,8 @@
+numpy
+scipy
+lameenc
+librosa
+kivy
+matplotlib
+sklearn
+ffpyplayer
