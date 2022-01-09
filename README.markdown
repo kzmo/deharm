@@ -16,6 +16,13 @@ you don't want to install FFMPEG for the whole system you can just copy the
 FFMPEG executable files (`ffmpeg.exe`, `ffplay.exe` and `ffprobe.exe` from the
 `bin` directory) to the same directory as `deharm.exe`.
 
+## Windows stand-alone executable
+
+The Windows stand-alone executable can be found in the releases
+[here](https://github.com/kzmo/deharm/releases/download/v0.2/deharm.exe).
+
+Please note the FFMPEG requirement described above in the requirements!
+
 ## Installation
 
 Clone Deharm from GitHub using Git from command line:
