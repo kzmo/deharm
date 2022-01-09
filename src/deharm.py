@@ -46,9 +46,14 @@ import matplotlib as mpl
 import matplotlib.ticker as mticker
 from matplotlib.ticker import EngFormatter
 
-# Imported just for the build to work
+# Imported just for the stand-alone build to work
 import sklearn
 import sklearn.neighbors._partition_nodes
+try:
+    # The _typedefs module isn't always available
+    import sklearn.utils._typedefs
+except Exception as ex:
+    pass
 
 from spectral_tools import *
 
