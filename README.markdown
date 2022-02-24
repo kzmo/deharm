@@ -7,7 +7,8 @@ each other get shifted so that they aren't any more.
 
 ## Requirements
 
-This software has been only tested on Python 3.9 and Windows 10. The operation
+This software requires at least Python version 3.8 or higher and it
+has been only tested on Python 3.9 with Windows 10 and Fedora. The operation
 under any other Python version or operating system is unknown.
 
 Running the stand-alone Windows executable also requires FFMPEG. If you haven't
@@ -15,6 +16,12 @@ installed it yet get it from [ffmpeg.org](https://www.ffmpeg.org/). If
 you don't want to install FFMPEG for the whole system you can just copy the
 FFMPEG executable files (`ffmpeg.exe`, `ffplay.exe` and `ffprobe.exe` from the
 `bin` directory) to the same directory as `deharm.exe`.
+
+Running the software in Linux also requires an FFMPEG installation. Generally it
+can be installed with whatever package manager is in use but for some
+distributions you may need to add non-free repositories. For Fedora you need
+the RPMfusion repositories. See
+[here](https://docs.fedoraproject.org/en-US/quick-docs/setup_rpmfusion/).
 
 ## Windows stand-alone executable
 
