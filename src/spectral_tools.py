@@ -45,6 +45,9 @@ def get_audio_data(filename):
         temp_audiofile.close()
         # FIXME: Sample rate is fixed to 44.1kHz
         try:
+            # Shell needs to True for Windows for the standalone executable
+            shell = (os.name == "nt")
+
             p = subprocess.Popen(['ffmpeg',
                                   '-i', filename,
                                   '-y',
@@ -55,7 +58,7 @@ def get_audio_data(filename):
                                  stdin=subprocess.DEVNULL,
                                  stdout=subprocess.DEVNULL,
                                  stderr=subprocess.DEVNULL,
-                                 shell=True)
+                                 shell=shell)
             # Run FFMPEG in a subprocess and wait to finish
             p.communicate()
             # Run the temporary .wav-file
