@@ -80,6 +80,10 @@ def get_audio_data(filename):
     else:
         raise RuntimeError("Unknown input file format!")
 
+    # Mono soundfiles come in a 1D array so turn them in to 2D
+    if len(audio_data.shape) == 1:
+        audio_data = np.array([audio_data])
+
     # Calculate the rest of the values based on data
     nof_channels = audio_data.shape[0]
     length_s = audio_data.shape[1]
