@@ -434,6 +434,7 @@ def deharmonize_stft(audio_data, sfreq, shift, high=False,
     # Calculate short-time FFT blocks for all channels
     for channel in audio_data:
         sf, time_segments, stft_data = stft(channel, nperseg=nperseg,
+                                            noverlap=0.75 * nperseg,
                                             padded=False)
         stft_data = stft_data.T
         sample_length = len(stft_data[0])
@@ -481,7 +482,8 @@ def deharmonize_stft(audio_data, sfreq, shift, high=False,
     # Transform all channels back to time-domain
     for channel in istft_datas:
         channel = np.array(channel).T
-        data_times, deharm = istft(channel)
+        data_times, deharm = istft(channel, nperseg=nperseg,
+                                    noverlap=0.75 * nperseg)
         # ISTFT doesn't necessarily produce exactly the same length signal
         # so resample to original length
         deharm = resample(deharm, orig_length)
