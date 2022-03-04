@@ -26,7 +26,7 @@ the RPMfusion repositories. See
 ## Windows stand-alone executable
 
 The Windows stand-alone executable can be found in the releases
-[here](https://github.com/kzmo/deharm/releases/download/v0.2/deharm.exe).
+[here](https://github.com/kzmo/deharm/releases/download/v0.2.1/deharm.exe).
 
 Please note the FFMPEG requirement described above in the requirements!
 
