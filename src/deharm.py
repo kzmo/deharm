@@ -646,6 +646,9 @@ class Root(FloatLayout):
         last_used_path = path
         app_config.set("General", "default_path", last_used_path)
 
+        # Disable the undo button
+        self.ids.undo.disabled = True
+
         # Generate spectrogram for UI
         audio_datas[-1].generate_spectrogram(self.ids.spectrogram)
 
