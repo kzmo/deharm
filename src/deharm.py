@@ -934,6 +934,7 @@ class DeharmApp(App):
         Config.setdefaults('General', {
             "default_path": get_default_directory()
         })
+        Config.set("input", "mouse", "mouse,disable_multitouch")
 
     def build(self):
         """Kivy app build function.
