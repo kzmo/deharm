@@ -460,7 +460,7 @@ class SaveAsDialog(FloatLayout):
     cancel = ObjectProperty(None)
 
     def default_path(self):
-        """Returns the default path to be used.
+        """Returns the default path to be used
 
         Returns:
             (str): The last used path if defined. Otherwise the
@@ -470,6 +470,19 @@ class SaveAsDialog(FloatLayout):
             return str(pathlib.Path(__file__).parent.resolve())
         else:
             return last_used_path
+
+    def filename_changed(self, filename):
+        """When filename is changed check that it's valid and disable or enable
+           the "Save" button
+
+        Args:
+            filename(str): The filename to be checked.
+        """
+        if filename.endswith(".mp3") or filename.endswith(".MP3") or \
+           filename.endswith(".wav") or filename.endswith(".WAV"):
+            self.ids.saveas_save_button.disabled = False
+        else:
+            self.ids.saveas_save_button.disabled = True
 
 
 class SaveErrorDialog(FloatLayout):
