@@ -183,6 +183,7 @@ class AudioData:
         self.soundfile = soundfile
         self.on_playback_stop = on_playback_stop
         self.temp_spectrogram = None
+        self.spectrogram_size = None
 
         # Create the audio for Kivy user interface
         self.create_kivy_audio()
@@ -336,6 +337,10 @@ class AudioData:
         self.temp_spectrogram.close()
         plt.savefig(self.temp_spectrogram.name, format='png', dpi=dpi)
 
+        # Store the size of the spectrogram for later checks in case
+        # the image widget changes its size.
+        self.spectrogram_size = (width_px, height_px)
+
         # Load the temporary image file to the image widget
         image_widget.source = self.temp_spectrogram.name
         image_widget.reload()
@@ -343,13 +348,25 @@ class AudioData:
     def reload_spectrogram(self, image_widget):
         """Reload the spectrogram image to a Kivy image widget
 
+        .. note:: Regenerates the spectrogram if image widget has changed its
+                  size since the spectrogram was saved.
+
         Args:
             image_widget(kivy.uix.image.Image): The image widget where the
                 spectrogram goes into
         """
 
-        image_widget.source = self.temp_spectrogram.name
-        image_widget.reload()
+        # If the image widget size hasn't changed we can use the old
+        # spectrogram.
+        if self.spectrogram_size is not None and \
+           self.spectrogram_size == \
+           (image_widget.size[0], image_widget.size[1]):
+            image_widget.source = self.temp_spectrogram.name
+            image_widget.reload()
+        else:
+            # The image widget size has changed so we need to regenerate the
+            # spectrogram.
+            self.generate_spectrogram(image_widget)
 
     def deharmonize(self, stft, fft_size, shift, minfreq, high, decompose):
         """Deharmonize the audio
