@@ -19,11 +19,12 @@ import librosa
 from librosa.effects import hpss
 
 
-def get_audio_data(filename):
+def get_audio_data(filename, normalize=True):
     """Get audio data based on a filename
 
     Args:
         filename(str): Name of the file
+        normalize(bool): Normalize the data after loading
 
     Returns:
         (tuple): tuple containing:
@@ -91,9 +92,10 @@ def get_audio_data(filename):
     length_s = audio_data.shape[1]
     length_t = length_s / sfreq
 
-    # Normalize the data to scale [-1, 1]
-    maximum = np.max(np.abs(audio_data))
-    audio_data = audio_data/maximum
+    if normalize:
+        # Normalize the data to scale [-1, 1]
+        maximum = np.max(np.abs(audio_data))
+        audio_data = audio_data/maximum
 
     return audio_data, sfreq, nof_channels, length_s, length_t
 
