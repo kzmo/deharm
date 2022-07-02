@@ -61,8 +61,10 @@ def get_audio_data(filename):
                                  shell=shell)
             # Run FFMPEG in a subprocess and wait to finish
             p.communicate()
-            # Run the temporary .wav-file
-            audio_data, sfreq = librosa.load(temp_audiofile.name, mono=False)
+            # Load the temporary .wav-file
+            audio_data, sfreq = librosa.load(temp_audiofile.name,
+                                             sr=None,
+                                             mono=False)
             # Delete the temporary file
             os.unlink(temp_audiofile.name)
         except Exception as ex:
@@ -76,7 +78,7 @@ def get_audio_data(filename):
             raise ex
     elif filename.lower().endswith(".wav"):
         # .wav files can be loaded directy with librosa
-        audio_data, sfreq = librosa.load(filename, mono=False)
+        audio_data, sfreq = librosa.load(filename, sr=None, mono=False)
     else:
         raise RuntimeError("Unknown input file format!")
 
