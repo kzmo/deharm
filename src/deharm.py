@@ -58,7 +58,7 @@ except Exception as ex:
 from spectral_tools import *
 
 # Version number
-VERSION = "0.2.1"
+VERSION = "0.2.2"
 
 # Last used file path as a string or NoneType
 last_used_path = None
